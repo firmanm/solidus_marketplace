@@ -3,6 +3,13 @@ Spree::Order.class_eval do
   has_many :stock_locations, through: :shipments
   has_many :suppliers, through: :stock_locations
 
+  def supplier_total(user_or_supplier)
+    supplier = user_or_supplier.is_a?(Spree::Supplier) ? user_or_supplier : user_or_supplier.supplier
+    shipments = self.shipments.by_supplier(supplier)
+    commissions = shipments.map(&:supplier_commission_total)
+    Spree::Money.new(commissions.sum)
+  end
+
   # Once order is finalized we want to notify the suppliers of their drop ship orders.
   # Here we are handling notification by emailing the suppliers.
   # If you want to customize this you could override it as a hook for notifying a supplier with a API request instead.

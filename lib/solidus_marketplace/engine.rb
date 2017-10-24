@@ -16,7 +16,7 @@ module SolidusMarketplace
     end
 
     initializer "solidus_marketplace.preferences", before: :load_config_initializers  do |app|
-      SolidusMarketplace::Config = Spree::DropShipConfiguration.new
+      SolidusMarketplace::Config = Spree::MarketplaceConfiguration.new
     end
 
     initializer "solidus_marketplace.menu", before: :load_config_initializers  do |app|

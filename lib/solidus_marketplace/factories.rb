@@ -68,6 +68,8 @@ FactoryGirl.define do
     email { FFaker::Internet.email }
     url "http://example.com"
     address
+    commission_flat_rate 0.0
+    commission_percentage 10.0
     # Creating a stock location with a factory instead of letting the model handle it
     # so that we can run tests with backorderable defaulting to true.
     before :create do |supplier|
