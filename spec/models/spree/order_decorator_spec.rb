@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe Spree::Order do
 
-  context '#finalize_with_drop_ship!' do
+  context '#finalize_with_supplier!' do
 
     after do
       SolidusMarketplace::Config[:send_supplier_email] = true
@@ -14,7 +14,7 @@ describe Spree::Order do
       order.create_proposed_shipments
 
       order.shipments.each do |shipment|
-        expect(Spree::DropShipOrderMailer).to receive(:supplier_order).with(shipment.id).and_return(double(Mail, :deliver! => true))
+        expect(Spree::MarketplaceOrderMailer).to receive(:supplier_order).with(shipment.id).and_return(double(Mail, :deliver! => true))
       end
 
       order.finalize!
@@ -35,7 +35,7 @@ describe Spree::Order do
       order.create_proposed_shipments
 
       order.shipments.each do |shipment|
-        expect(Spree::DropShipOrderMailer).not_to receive(:supplier_order).with(shipment.id)
+        expect(Spree::MarketplaceOrderMailer).not_to receive(:supplier_order).with(shipment.id)
       end
 
       order.finalize!
@@ -54,7 +54,7 @@ describe Spree::Order do
   describe "#supplier_total" do
     context "when passed a supplier" do
       it "returns the total commission earned for the order for a given supplier" do
-        order = create(:completed_order_for_drop_ship_with_totals, ship_address: create(:address))
+        order = create(:completed_order_from_supplier_with_totals, ship_address: create(:address))
         supplier = order.suppliers.first
         expected_supplier_total = Spree::Money.new(15.00)
         expect(order.total).to eq(150.0)
@@ -65,7 +65,7 @@ describe Spree::Order do
 
     context "when passed a user associated with a supplier" do
       it "returns the total commission earned for the order for a given supplier" do
-        order = create(:completed_order_for_drop_ship_with_totals, ship_address: create(:address))
+        order = create(:completed_order_from_supplier_with_totals, ship_address: create(:address))
         supplier = order.suppliers.first
         supplier_user = create(:supplier_user, supplier: supplier)
 
