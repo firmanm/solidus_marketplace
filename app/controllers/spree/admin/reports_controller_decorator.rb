@@ -13,14 +13,14 @@ Spree::Admin::ReportsController.class_eval do
 
   def earnings_csv
     header1 = ["Supplier Earnings"]
-    header2 = ["Supplier", "Earnings"]
+    header2 = ["Supplier", "Earnings", "Paypal Email"]
 
     CSV.generate do |csv|
       csv << header1
       csv << []
       csv << header2
       @supplier_earnings.each do |se|
-        csv << ["#{se[:name]}", "#{se[:earnings].to_html}"]
+        csv << ["#{se[:name]}", "#{se[:earnings].to_html}", "#{se[:paypal_email]}"]
       end
     end
   end
@@ -53,9 +53,11 @@ Spree::Admin::ReportsController.class_eval do
     grouped_earnings = grouped_suppliers_map.map do |gs|
       h = {}
       h[:name] = nil
+      h[:paypal_email] = nil
       h[:earnings] = []
       gs.each do |s|
         h[:name] = s[:name] if h[:name].nil?
+        h[:paypal_email] = s[:paypal_email] if h[:paypal_email].nil?
         h[:earnings] << s[:earnings]
       end
       h

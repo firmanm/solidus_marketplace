@@ -12,7 +12,11 @@ Spree::Order.class_eval do
 
   def supplier_earnings_map
     suppliers.map do |s|
-      { name: s.name, earnings: self.supplier_total(s) }
+      {
+        name: s.name,
+        earnings: self.supplier_total(s),
+        paypal_email: s.paypal_email
+      }
     end
   end
 
