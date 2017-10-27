@@ -25,6 +25,7 @@ en:
         suppliers: Suppliers
         shipments: Shipments
         profile: Profile
+        earnings: Earnings
       marketplace_settings:
         update:
           success: Marketplace settings successfully updated.
@@ -49,6 +50,8 @@ en:
     default_commission_percentage: Default Commission Percentage
     default_commission_flat_rate: Default Commission Flat Rate
     drop_ship: Drop Ship
+    earnings: Earnings
+    earnings_description: Earnings for Suppliers over the specified time period
     marketplace_order_mailer:
       supplier_order:
         hello: "Hello %{name},"
@@ -82,6 +85,7 @@ en:
     signup_to_become_a_supplier: 'Sign Up To Become A Supplier'
     supplier: Supplier
     supplier_details: Supplier Details
+    supplier_earnings: Supplier Earnings
     supplier_info: Supplier Info
     supplier_information: Supplier Information
     supplier_mailer:

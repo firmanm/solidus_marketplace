@@ -10,6 +10,12 @@ Spree::Order.class_eval do
     Spree::Money.new(commissions.sum)
   end
 
+  def supplier_earnings_map
+    suppliers.map do |s|
+      { name: s.name, earnings: self.supplier_total(s) }
+    end
+  end
+
   # Once order is finalized we want to notify the suppliers of their drop ship orders.
   # Here we are handling notification by emailing the suppliers.
   # If you want to customize this you could override it as a hook for notifying a supplier with a API request instead.
